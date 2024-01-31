@@ -12,6 +12,8 @@ class User(Document):
     first_name: str
     last_name: str
     disabled: Optional[bool] = False
+    otp_code: Optional[str] = None
+    otp_expiration: Optional[datetime] = None
 
     def __repr__(self) -> str:
         return f"<User {self.email}>"
@@ -32,8 +34,8 @@ class User(Document):
         return self.id.generation_time
 
     @classmethod
-    async def by_email(self, email: str):
-        return await self.find_one(self.email == email)
+    async def by_email(cls, email: str):
+        return await cls.find_one(cls.email == email)
     
     class Settings:
         name = "users"

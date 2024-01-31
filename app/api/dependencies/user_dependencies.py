@@ -7,6 +7,8 @@ from app.services.user_services import UserService
 from jose import jwt
 from pydantic import ValidationError
 from datetime import datetime
+import math
+import random
 
 reusable_oauth = OAuth2PasswordBearer(
     tokenUrl=f"{settings.API}/auth/login",
@@ -39,3 +41,11 @@ async def get_current_user(token: str = Depends(reusable_oauth)) -> User:
             detail="Could not find user"
         )
     return user
+
+async def OTPGen() -> str:
+    string = "0123456789"
+    OTP = ""
+    length = len(string)
+    for i in range(6):
+        OTP += string[math.floor(random.random()* length)]
+    return OTP

@@ -20,9 +20,6 @@ class Settings(BaseSettings):
     MAIL_FROM: EmailStr = config("MAIL_FROM", cast=EmailStr)
     MAIL_PORT: int = config("MAIL_PORT", default=587, cast=int)
     MAIL_SERVER: str = config("MAIL_SERVER", cast=str)
-    MAIL_TLS: bool = config("MAIL_TLS", default=True, cast=bool)
-    MAIL_SSL: bool = config("MAIL_SSL", default=False, cast=bool)
-    USE_CREDENTIALS: bool = config("USE_CREDENTIALS", default=True, cast=bool)
 
     class Config:
         case_sensitive = True
@@ -35,9 +32,8 @@ conf = ConnectionConfig(
     MAIL_FROM=settings.MAIL_FROM,
     MAIL_PORT=settings.MAIL_PORT,
     MAIL_SERVER=settings.MAIL_SERVER,
-    MAIL_TLS=settings.MAIL_TLS,
-    MAIL_SSL=settings.MAIL_SSL,
-    USE_CREDENTIALS=settings.USE_CREDENTIALS,
+    MAIL_STARTTLS = True,
+    MAIL_SSL_TLS = False,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True
 )
-
-fastmail = FastMail(conf)
