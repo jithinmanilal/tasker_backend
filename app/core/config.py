@@ -1,7 +1,7 @@
 from typing import List
-from pydantic.v1 import BaseSettings, AnyHttpUrl
+from pydantic.v1 import BaseSettings, AnyHttpUrl, EmailStr
 from decouple import config
-
+from fastapi_mail import ConnectionConfig, FastMail
 
 class Settings(BaseSettings):
     API: str = "/api"
@@ -15,7 +15,29 @@ class Settings(BaseSettings):
 
     MONGO_URI: str = config("MONGO_URI", cast=str)
 
+    MAIL_USERNAME: str = config("MAIL_USERNAME", cast=str)
+    MAIL_PASSWORD: str = config("MAIL_PASSWORD", cast=str)
+    MAIL_FROM: EmailStr = config("MAIL_FROM", cast=EmailStr)
+    MAIL_PORT: int = config("MAIL_PORT", default=587, cast=int)
+    MAIL_SERVER: str = config("MAIL_SERVER", cast=str)
+    MAIL_TLS: bool = config("MAIL_TLS", default=True, cast=bool)
+    MAIL_SSL: bool = config("MAIL_SSL", default=False, cast=bool)
+    USE_CREDENTIALS: bool = config("USE_CREDENTIALS", default=True, cast=bool)
+
     class Config:
         case_sensitive = True
 
 settings = Settings()
+
+conf = ConnectionConfig(
+    MAIL_USERNAME=settings.MAIL_USERNAME,
+    MAIL_PASSWORD=settings.MAIL_PASSWORD,
+    MAIL_FROM=settings.MAIL_FROM,
+    MAIL_PORT=settings.MAIL_PORT,
+    MAIL_SERVER=settings.MAIL_SERVER,
+    MAIL_TLS=settings.MAIL_TLS,
+    MAIL_SSL=settings.MAIL_SSL,
+    USE_CREDENTIALS=settings.USE_CREDENTIALS,
+)
+
+fastmail = FastMail(conf)

@@ -5,7 +5,7 @@ from pymongo.errors import DuplicateKeyError
 
 user_router = APIRouter()
 
-@user_router.post('/register', summary="Register new user.", response_model=UserResponse)
+@user_router.post('/register', summary="Register new user", response_model=UserResponse)
 async def register_user(data: UserAuth):
     try:
         return await UserService.create_user(data)

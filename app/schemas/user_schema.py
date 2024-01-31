@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field
 from uuid import UUID
+from typing import Optional
 
 
 class UserAuth(BaseModel):
@@ -14,5 +15,5 @@ class UserResponse(BaseModel):
     email: EmailStr
     first_name: str
     last_name: str
-    disabled: bool = False
+    disabled: Optional[bool] = False
     
