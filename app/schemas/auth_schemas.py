@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from fastapi import Response
 from uuid import UUID
 
@@ -12,3 +12,6 @@ def TokenSchemaResponse(data: dict, **kwargs):
 class TokenPayload(BaseModel):
     sub: UUID = None
     exp: int = None
+
+class EmailBody(BaseModel):
+    email: EmailStr

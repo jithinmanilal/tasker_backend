@@ -9,7 +9,7 @@ from app.schemas.auth_schemas import TokenSchema
 from app.schemas.user_schema import UserResponse
 from app.models.user_model import User
 from app.core.config import settings
-from app.schemas.auth_schemas import TokenPayload
+from app.schemas.auth_schemas import TokenPayload, EmailBody
 from app.core.config import conf
 from fastapi_mail import MessageSchema, FastMail
 from pydantic import ValidationError, EmailStr
@@ -61,7 +61,8 @@ async def refresh_token(refresh_token: str = Body(...)):
     }
 
 @auth_router.post("/create-otp", summary="Create and send OTP to user's email")
-async def create_otp(email: EmailStr):
+async def create_otp(body: EmailBody):
+    email = body.email
     user = await UserService.get_user_by_email(email)
     if not user:
         raise HTTPException(
