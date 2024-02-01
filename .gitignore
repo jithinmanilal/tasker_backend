@@ -1,2 +1,3 @@
 #Environment file
 .env
+app/.env
